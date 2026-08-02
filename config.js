@@ -1,5 +1,5 @@
 const CONFIG = {
-    backgroundMusic: "assets/music/background2.mp3",
+    backgroundMusic: "assets/music/background3.mp3",
 
     backgroundMusicLoop: true,
 
