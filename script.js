@@ -287,7 +287,7 @@
   const loadingParticlesWrap = document.getElementById('loading-particles');
 
   const loadingMessages = [
-    'Initializing…', 'Loading memories…', 'Growing emotions…', 'Compiling love…', 'Almost ready…',
+    'بنجهّز الحكاية…', 'بنرتّب الكلام…', 'بنستنى الورد يفتح…', 'خلاص قربنا…', 'جاهزة؟',
   ];
 
   function spawnLoadingParticles() {
@@ -654,7 +654,6 @@
     flowerCore.classList.remove('heart-ready');
     allPetals.forEach((p) => p.classList.remove('bloom'));
     crystalHeart.classList.remove('reveal');
-    lineEls.forEach((el) => { el.classList.remove('show', 'riseaway'); el.textContent = ''; });
     ambientLevel = 1;
     particles.petals = [];
 

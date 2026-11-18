@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Bloom of Zahraa</title>
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ================= AMBIENT CANVAS (stars / dust / fireflies / fog / petals / cursor glow) ================= -->
+<canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+<!-- ================= LOADING EXPERIENCE ================= -->
+<section id="loading-screen" aria-live="polite">
+  <div class="loading-particles" id="loading-particles"></div>
+  <div class="loading-card">
+    <div class="loading-mark">
+      <svg viewBox="0 0 60 60" class="mark-svg">
+        <path class="mark-path" d="M30 54C30 54 8 40 8 22C8 12 16 6 24 9C27 10.2 29 13 30 15C31 13 33 10.2 36 9C44 6 52 12 52 22C52 40 30 54 30 54Z"/>
+      </svg>
+    </div>
+    <p class="loading-message" id="loading-message">Initializing&hellip;</p>
+    <div class="loading-bar">
+      <div class="loading-bar-fill" id="loading-bar-fill"></div>
+    </div>
+    <span class="loading-percent" id="loading-percent">0%</span>
+  </div>
+</section>
+
+<!-- ================= WELCOME SCREEN ================= -->
+<section id="welcome-screen" class="hidden">
+  <div class="welcome-inner">
+    <svg class="golden-line" viewBox="0 0 300 4" preserveAspectRatio="none">
+      <line x1="0" y1="2" x2="300" y2="2" />
+    </svg>
+    <h1 class="welcome-title" data-reveal>To Zahraa</h1>
+    <p class="welcome-subtitle" data-reveal>A small piece of my heart<br>written in code </p>
+    <button id="begin-btn" class="btn-luxury" data-reveal>
+      <span>Begin</span>
+      <i class="btn-glow"></i>
+    </button>
+  </div>
+</section>
+
+<!-- ================= MAIN CINEMATIC SCENE ================= -->
+<main id="scene" class="hidden">
+
+  <!-- parallax sky / fog layers -->
+  <div class="sky-layer" id="sky-layer"></div>
+  <div class="fog-layer" id="fog-layer-1"></div>
+  <div class="fog-layer" id="fog-layer-2"></div>
+
+  <!-- ground -->
+  <div class="ground" id="ground">
+    <div class="ground-glow" id="ground-glow"></div>
+  </div>
+
+  <!-- seed -->
+  <div class="seed" id="seed"></div>
+
+  <!-- FLOWER -->
+  <div class="flower-wrap" id="flower-wrap">
+    <svg id="flower-svg" viewBox="0 0 300 400" class="flower-svg">
+      <defs>
+        <radialGradient id="petalOuterGrad" cx="50%" cy="85%" r="75%">
+          <stop offset="0%" stop-color="#5a0f1c"/>
+          <stop offset="55%" stop-color="#8c1023"/>
+          <stop offset="100%" stop-color="#c23349"/>
+        </radialGradient>
+        <radialGradient id="petalMidGrad" cx="50%" cy="85%" r="75%">
+          <stop offset="0%" stop-color="#7a1220"/>
+          <stop offset="60%" stop-color="#a8213a"/>
+          <stop offset="100%" stop-color="#d4506a"/>
+        </radialGradient>
+        <radialGradient id="petalInnerGrad" cx="50%" cy="85%" r="75%">
+          <stop offset="0%" stop-color="#8c1a2c"/>
+          <stop offset="55%" stop-color="#c23349"/>
+          <stop offset="100%" stop-color="#e8a1ad"/>
+        </radialGradient>
+        <linearGradient id="stemGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#0d1f14"/>
+          <stop offset="100%" stop-color="#2f5238"/>
+        </linearGradient>
+        <linearGradient id="leafGrad" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#122a1c"/>
+          <stop offset="100%" stop-color="#3a6b45"/>
+        </linearGradient>
+        <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f4d99a"/>
+          <stop offset="45%" stop-color="#d4af6a"/>
+          <stop offset="100%" stop-color="#8c1023" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="heartGrad" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="35%" stop-color="#f4d99a"/>
+          <stop offset="100%" stop-color="#d4af6a"/>
+        </radialGradient>
+        <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="strongGlow" x="-150%" y="-150%" width="400%" height="400%">
+          <feGaussianBlur stdDeviation="9" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- roots -->
+      <g id="roots" class="roots">
+        <path class="root-path" d="M150,340 C140,352 118,356 100,372"/>
+        <path class="root-path" d="M150,340 C160,354 182,358 198,376"/>
+        <path class="root-path" d="M150,340 C150,356 150,366 150,384"/>
+        <path class="root-path" d="M150,340 C132,350 122,362 112,384"/>
+        <path class="root-path" d="M150,340 C168,350 178,362 190,384"/>
+      </g>
+
+      <!-- stem -->
+      <path id="stem" class="stem-path" d="M150,340 C147,300 153,245 150,180"/>
+      <path id="stem-rim" class="stem-rim" d="M150,340 C147,300 153,245 150,180"/>
+
+      <!-- leaves -->
+      <g id="leaves" class="leaves">
+        <path class="leaf leaf-left" d="M150,275 C120,268 96,282 84,308 C112,312 140,300 150,275 Z"/>
+        <path class="leaf leaf-right" d="M150,235 C182,226 208,238 220,264 C190,270 162,258 150,235 Z"/>
+      </g>
+
+      <!-- flower center: layered petals -->
+      <g id="flower-core" class="flower-core">
+        <circle class="core-glow" cx="150" cy="175" r="46" fill="url(#coreGrad)"/>
+
+        <!-- outer layer -->
+        <g class="petal-layer petal-outer-layer">
+          <!-- 6 petals populated by JS -->
+        </g>
+        <!-- middle layer -->
+        <g class="petal-layer petal-mid-layer"></g>
+        <!-- inner layer -->
+        <g class="petal-layer petal-inner-layer"></g>
+
+        <circle class="core-center" cx="150" cy="175" r="9"/>
+      </g>
+
+      <!-- crystal heart, revealed in final scene -->
+      <g id="crystal-heart" class="crystal-heart">
+        <path d="M150,192 C150,192 128,176 120,161 C114,150 118,138 130,136 C139,134.5 146,140 150,148 C154,140 161,134.5 170,136 C182,138 186,150 180,161 C172,176 150,192 150,192 Z"/>
+      </g>
+
+      <!-- sparkle group around flower -->
+      <g id="flower-sparkles" class="flower-sparkles"></g>
+    </svg>
+  </div>
+  <!-- hint for interaction -->
+  <p class="interact-hint" id="interact-hint">المسي الوردة</p>
+
+  <!-- sound toggle -->
+  <button id="sound-toggle" class="sound-toggle" aria-label="Toggle sound" data-on="true">
+    <span class="sound-icon"></span>
+  </button>
+
+  <!-- replay -->
+  <button id="replay-btn" class="btn-luxury replay-btn hidden">
+    <span>Replay</span>
+    <i class="btn-glow"></i>
+  </button>
+
+</main>
+
+<!-- ================= THE BOOK OF POETRY ================= -->
+<section id="storybook" aria-label="A book of poetry for Zahraa">
+  <div class="book-intro" data-scroll-reveal>
+    <span class="eyebrow">فصلٌ كُتبَ على مهل</span>
+    <h2>إلى زهراء</h2>
+    <p>كل صفحةٍ هنا، تعرف اسمك.</p>
+  </div>
+<div class="poem-timeline" aria-label="قصائد إلى زهراء">
+
+  <article class="poem-card" data-scroll-reveal>
+    <span class="poem-number">I</span>
+    <i class="ornament" aria-hidden="true">✦</i>
+    <p>
+      كُلُّ الْوُرُودِ<br>
+      تَتَفَتَّحُ مَعَ الرَّبِيعِ...<br><br>
+      إِلَّا هَذِهِ،<br><br>
+      فَهِيَ لَا تَتَفَتَّحُ<br>
+      إِلَّا لِزَهْرَاء.
+    </p>
+  </article>
+
+  <article class="poem-card poem-card--right" data-scroll-reveal>
+    <span class="poem-number">II</span>
+    <i class="ornament" aria-hidden="true">✦</i>
+    <p>
+      لَا أَدْرِي...<br><br>
+      أَهَلِ الْوَرْدُ يُشْبِهُكِ،<br><br>
+      أَمْ أَنَّهُ،<br>
+      مُنْذُ أَنْ عَرَفَ اسْمَكِ،<br>
+      أَصْبَحَ يُحَاوِلُ أَنْ يَفْعَلَ ذَلِكَ.
+    </p>
+  </article>
+
+  <article class="poem-card" data-scroll-reveal>
+    <span class="poem-number">III</span>
+    <i class="ornament" aria-hidden="true">✦</i>
+    <p>
+      كُلُّ مَا أَعْرِفُهُ عَنْ مَشَاعِرِي،<br><br>
+      أَنَّكِ...<br>
+      يَا حَبِيبَتِي،<br><br>
+      حَبِيبَتِي.
+    </p>
+  </article>
+
+  <article class="poem-card poem-card--right" data-scroll-reveal>
+    <span class="poem-number">IV</span>
+    <i class="ornament" aria-hidden="true">✦</i>
+    <p>
+      إِنِّي ذَكَرْتُكِ بِالزَّهْرَاءِ مُشْتَاقًا،<br><br>
+      وَالْأُفُقُ طَلْقٌ،<br>
+      وَوَجْهُ الْأَرْضِ قَدْ رَاقَا.
+    </p>
+  </article>
+
+  <article class="poem-card" data-scroll-reveal>
+    <span class="poem-number">V</span>
+    <i class="ornament" aria-hidden="true">✦</i>
+    <p>
+      لَمْ أُرِدْ أَنْ أَكْتُبَ قَصِيدَةً...<br><br>
+      أَرَدْتُ أَنْ أَصْنَعَ ذِكْرَى.<br><br>
+      فَكَانَ هَذَا الْمَوْقِعُ.
+    </p>
+  </article>
+</div>
+ <section class="letter-chapter" aria-label="رسالة مكتوبة باليد">
+  <div class="candle candle--left" aria-hidden="true"></div>
+  <div class="candle candle--right" aria-hidden="true"></div>
+
+  <div class="letter-paper" id="letter-paper" data-scroll-reveal>
+    <span class="paper-fold" aria-hidden="true"></span>
+    <span class="quill" aria-hidden="true">✒</span>
+
+    <p class="letter-title">إلى زهراء...</p>
+
+    <div
+      class="letter-body"
+      id="letter-body"
+      data-text="لا أعرف كيف تبدأ الرسائل الجميلة...|لكنني أعرف جيدًا لماذا كتبت هذه الرسالة.|لأنني لم أرد أن أهديكِ وردةً تذبل مع الأيام،|بل أردت أن أصنع شيئًا يبقى.|شيئًا كلما عدتِ إليه،|تفتحت فيه الوردة من جديد.|ربما لن تغيّر هذه الكلمات شيئًا،|لكنها تحمل من الصدق ما جعلني أكتبها.|وكلما تفتحت هذه الوردة...|تذكري أنها تتفتح لكِ أنتِ.|وأتمنى أن تكون قد رسمت ابتسامةً على وجهكِ،|فذلك كان كل ما تمنيته.">
+    </div>
+
+    <p class="letter-signature">
+      بكل الود...<br>
+      سونه
+    </p>
+  </div>
+
+  <button id="finish-journey" class="btn-luxury finish-journey" type="button">
+    <span>اختمي الرسالة</span>
+    <i class="btn-glow"></i>
+  </button>
+</section>
+
+  <section class="ending-section" id="ending-section" aria-label="The final bloom">
+    <div class="ending-haze" aria-hidden="true"></div>
+    <div class="closing-rose" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><b>♥</b></div>
+    <p class="ending-kicker">صُنع بحبٍ</p><h2>لزهراء</h2>
+    <button id="replay-journey" class="btn-luxury" type="button"><span>Replay Journey</span><i class="btn-glow"></i></button>
+  </section>
+</section>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
